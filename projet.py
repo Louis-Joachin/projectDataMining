@@ -1,6 +1,6 @@
 import os,sys
 import csv
-from Pillow import Image
+from PIL import Image
 
 
 with open('label.csv','w',newline='') as csvfile :

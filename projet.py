@@ -17,6 +17,7 @@ with open('label.json','w') as jsonfile :
                 format='portrait'
             else:
                 format='carre'
+            
 
             dictionnaire = {}
             dictionnaire["lien"]=file
@@ -38,7 +39,3 @@ with open('user.json','w') as jsonfile :
     for userId in range(100):
         dictionnaireUser["id"]=userId
         dictionnaireUser["likes"]=[]
-
-
-
-

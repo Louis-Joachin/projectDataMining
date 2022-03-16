@@ -1,11 +1,11 @@
-import os,sys
-import csv
+import os
+import json
 from turtle import width
 from PIL import Image
 
 
-with open('label.csv','w',newline='') as csvfile :
-    label = csv.writer(csvfile, delimiter=',')
+with open('label.json','w') as jsonfile :
+    liste=[]
     for dossier in os.listdir('./images'):
         for image in os.listdir('./images/'+dossier):
             file='./images/'+dossier+'/'+image
@@ -17,12 +17,28 @@ with open('label.csv','w',newline='') as csvfile :
                 format='portrait'
             else:
                 format='carre'
-            
-            label.writerow([file]+[dossier]+[width]+[height]+[format])
-            
+
+            dictionnaire = {}
+            dictionnaire["lien"]=file
+            dictionnaire["auteur"]=dossier
+            dictionnaire["largeur"]=str(width)
+            dictionnaire["hauteur"]=str(height)
+            dictionnaire["format"]=format
+            dictionnaire["tags"]=[]
+            dictionnaire["likes"]=0
+            liste.append(dictionnaire)
+    string=str(liste)
+    jsonfile.write(json.dumps(liste, ensure_ascii=False))
+    jsonfile.close()
 
     
-        
+with open('user.json','w') as jsonfile :
+    liste=[]
+    dictionnaireUser={}
+    for userId in range(100):
+        dictionnaireUser["id"]=userId
+        dictionnaireUser["likes"]=[]
+
 
 
 

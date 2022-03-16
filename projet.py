@@ -28,7 +28,9 @@ with open('label.json','w') as jsonfile :
             liste.append(dictionnaire)
     string=str(liste)
     jsonfile.write(json.dumps(liste, ensure_ascii=False))
-       
+    
+    
+    jsonfile.close()
 
     
         

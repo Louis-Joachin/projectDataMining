@@ -1,10 +1,30 @@
 import os
 import json
-from turtle import width
 from PIL import Image
+import numpy
+import math
+import matplotlib.pyplot as plot
+from sklearn.cluster import KMeans
 
+def Couleur(path):
+    
+    imgfile = Image.open(path)
+    numarray = numpy.array(imgfile.getdata(), numpy.uint8)
 
-with open('label.json','w') as jsonfile :
+    cluster_count = 2
+    clusters = KMeans(n_clusters = cluster_count)
+    clusters.fit(numarray)
+
+    npbins = numpy.arange(0, cluster_count + 1)
+    histogram = numpy.histogram(clusters.labels_, bins=npbins)
+
+    imax = numpy.argmax(histogram[0])
+    R = math.ceil(clusters.cluster_centers_[imax][0])
+    G = math.ceil(clusters.cluster_centers_[imax][1])
+    B = math.ceil(clusters.cluster_centers_[imax][2])
+    return [R,G,B]
+
+"""with open('label.json','w') as jsonfile :
     liste=[]
     for dossier in os.listdir('./images'):
         for image in os.listdir('./images/'+dossier):
@@ -13,7 +33,7 @@ with open('label.json','w') as jsonfile :
             [width,height] = [imgfile.width,imgfile.height]
             if width/height > 1.1:
                 format='paysage'
-            elif height/height > 1.1:
+            elif height/width > 1.1:
                 format='portrait'
             else:
                 format='carre'
@@ -27,11 +47,13 @@ with open('label.json','w') as jsonfile :
             dictionnaire["format"]=format
             dictionnaire["tags"]=[]
             dictionnaire["likes"]=0
+            dictionnaire["couleur"]=Couleur(file)
             liste.append(dictionnaire)
+            
     string=str(liste)
     jsonfile.write(json.dumps(liste, ensure_ascii=False))
     jsonfile.close()
-
+"""
     
 with open('user.json','w') as jsonfile :
     liste=[]

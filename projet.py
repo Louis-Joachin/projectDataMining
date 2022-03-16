@@ -5,7 +5,6 @@ from PIL import Image
 
 
 with open('label.json','w') as jsonfile :
-    fieldnames = ['lien','auteur','largeur','hauteur','format']
     liste=[]
     for dossier in os.listdir('./images'):
         for image in os.listdir('./images/'+dossier):
@@ -25,15 +24,21 @@ with open('label.json','w') as jsonfile :
             dictionnaire["largeur"]=str(width)
             dictionnaire["hauteur"]=str(height)
             dictionnaire["format"]=format
+            dictionnaire["tags"]=[]
+            dictionnaire["likes"]=0
             liste.append(dictionnaire)
     string=str(liste)
     jsonfile.write(json.dumps(liste, ensure_ascii=False))
-    
-    
     jsonfile.close()
 
     
-        
+with open('user.json','w') as jsonfile :
+    liste=[]
+    dictionnaireUser={}
+    for userId in range(100):
+        dictionnaireUser["id"]=userId
+        dictionnaireUser["likes"]=[]
+
 
 
 

@@ -62,11 +62,30 @@ with open('user.json','w') as jsonfile :
     for userId in range(100):
         dictionnaireUser["id"]=userId
         dictionnaireUser["likes"]=[]
+        dictionnaireUser["tags"]=[]
         for i in range(20):
+            #likes
             randint=random.randint(0,len(listeTableau)-1)
             like=listeTableau[randint]
             dictionnaireUser["likes"].append(like["lien"])
             listeTableau[randint]["likes"]+=1
-    print(listeTableau)
+            
+            #tags
+            randint=random.randint(0,len(listeTableau)-1)
+            randint2=random.randint(0,len(tags)-1)
+            tableauTag=listeTableau[randint]
+            tag=tags[randint2]
+            dictionnaireUser["tags"].append({tableauTag["lien"]:tag})
+            if tag not in listeTableau[randint]["tags"]:
+                listeTableau[randint]["tags"].append(tag)
+
+            
+            
+        print(dictionnaireUser)
+        listeUser.append(dictionnaireUser)
+    
+    
+    jsonfile.write(json.dumps(listeUser, ensure_ascii=False))
+    jsonfile.close()
             
         

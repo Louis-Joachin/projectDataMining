@@ -5,6 +5,7 @@ import numpy
 import math
 import matplotlib.pyplot as plot
 from sklearn.cluster import KMeans
+import random
 
 def Couleur(path):
     
@@ -24,8 +25,8 @@ def Couleur(path):
     B = math.ceil(clusters.cluster_centers_[imax][2])
     return [R,G,B]
 
-"""with open('label.json','w') as jsonfile :
-    liste=[]
+with open('label.json','w') as jsonfile :
+    listeTableau=[]
     for dossier in os.listdir('./images'):
         for image in os.listdir('./images/'+dossier):
             file='./images/'+dossier+'/'+image
@@ -46,17 +47,27 @@ def Couleur(path):
             dictionnaire["format"]=format
             dictionnaire["tags"]=[]
             dictionnaire["likes"]=0
-            dictionnaire["couleur"]=Couleur(file)
-            liste.append(dictionnaire)
+            #dictionnaire["couleur"]=Couleur(file)
+            listeTableau.append(dictionnaire)
             
-    string=str(liste)
-    jsonfile.write(json.dumps(liste, ensure_ascii=False))
+    string=str(listeTableau)
+    jsonfile.write(json.dumps(listeTableau, ensure_ascii=False))
     jsonfile.close()
-"""
+
     
 with open('user.json','w') as jsonfile :
-    liste=[]
+    listeUser=[]
     dictionnaireUser={}
     for userId in range(100):
         dictionnaireUser["id"]=userId
         dictionnaireUser["likes"]=[]
+        for i in range(20):
+            randint=random.randint(0,len(listeTableau)-1)
+            like=listeTableau[randint]
+            dictionnaireUser["likes"].append(like["lien"])
+            listeTableau[randint]["likes"]+=1
+    print(listeTableau)
+            
+            
+            
+        

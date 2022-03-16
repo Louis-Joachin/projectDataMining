@@ -68,6 +68,4 @@ with open('user.json','w') as jsonfile :
             listeTableau[randint]["likes"]+=1
     print(listeTableau)
             
-            
-            
         

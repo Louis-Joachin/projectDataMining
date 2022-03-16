@@ -56,6 +56,7 @@ def Couleur(path):
 """
     
 with open('user.json','w') as jsonfile :
+    tags = ["impressionnisme","abstrait","emouvant","decevant","chef-d'oeuvre","acrylique","aquarelle","printanier"]
     liste=[]
     dictionnaireUser={}
     for userId in range(100):

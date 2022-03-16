@@ -13,7 +13,7 @@ with open('label.json','w') as jsonfile :
             [width,height] = [imgfile.width,imgfile.height]
             if width/height > 1.1:
                 format='paysage'
-            elif height/height > 1.1:
+            elif height/width > 1.1:
                 format='portrait'
             else:
                 format='carre'
@@ -38,7 +38,3 @@ with open('user.json','w') as jsonfile :
     for userId in range(100):
         dictionnaireUser["id"]=userId
         dictionnaireUser["likes"]=[]
-
-
-
-

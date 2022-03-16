@@ -8,15 +8,17 @@ with open('label.csv','w',newline='') as csvfile :
     label = csv.writer(csvfile, delimiter=',')
     for dossier in os.listdir('./images'):
         for image in os.listdir('./images/'+dossier):
-            width=image.width()
-            height=image.height()
+            file='./images/'+dossier+'/'+image
+            imgfile=Image.open(file)
+            [width,height] = [imgfile.width,imgfile.height]
             if width/height > 1.1:
                 format='paysage'
             elif height/height > 1.1:
                 format='portrait'
             else:
-                format='carré'
-            label.writerow(['./images/'+dossier+'/'+image]+[dossier]+[width]+[height]+[format])
+                format='carre'
+            
+            label.writerow([file]+[dossier]+[width]+[height]+[format])
             
 
     

@@ -23,10 +23,21 @@ def ComparaisonCouleur(couleur1, couleur2):
     return dif[0]**2+dif[1]**2+dif[2]**2
 
 couleursPref = []
-#récupération des couleurs dominates des tableaux likés par l'utilisateur 0
+listeFormat = []
+compteFormat = []
+#récupération des couleurs dominantes des tableaux likés par l'utilisateur 0
 for tab in dataTab:
     if tab['lien'] in dataUser[0]['likes']:
         couleursPref.append(tab['couleur'])
+        format = tab['format']
+        if format in listeFormat:
+            compteFormat[listeFormat.index(format)]+=1
+        else:
+            compteFormat.append(1)
+            listeFormat.append(format)
+
+formatPref=listeFormat[compteFormat.index(max(compteFormat))]
+dataUser[0]['formatPref']=formatPref
 
 #partitionement des couleurs dominantes de tous les tableaux en 3 cluster
 couleursPref = MiniBatchKMeans(3).fit(couleursPref)
@@ -42,6 +53,9 @@ B = math.ceil(couleursPref.cluster_centers_[imax][2])
 
 dataUser[0]['couleurPref']=[R,G,B]
 
+
+
+
 listeTag=[]
 compteTag=[]
 for tableau in dataUser[0]['tags']:
@@ -54,7 +68,6 @@ for tableau in dataUser[0]['tags']:
         compteTag.append(1)
         listeTag.append(tag)
 
-print(listeTag,compteTag)
 
 
 tagPref=listeTag[compteTag.index(max(compteTag))]

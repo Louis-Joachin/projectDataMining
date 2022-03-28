@@ -3,11 +3,16 @@ import pandas as pd
 import json
 import numpy
 from sklearn.cluster import MiniBatchKMeans
+import math
 
-dataTab = json.load(open("label.json"))
+jsonTab=open("label.json",'r')
+dataTab = json.load(jsonTab)
+jsonTab.close()
 dataframeTab = json_normalize(dataTab)
 
-dataUser = json.load(open("user.json"))
+jsonUser=open("user.json",'r')
+dataUser = json.load(jsonUser)
+jsonUser.close()
 dataframeUser = json_normalize(dataUser)
 
 def ComparaisonCouleur(couleur1, couleur2):
@@ -30,4 +35,35 @@ npbins = numpy.arange(0, 4)
 #création d'un histogramme qui classe les clusters par odre croissant
 histogram = numpy.histogram(couleursPref.labels_, bins=npbins)
 imax = numpy.argmax(histogram[0])
+
+R = math.ceil(couleursPref.cluster_centers_[imax][0])
+G = math.ceil(couleursPref.cluster_centers_[imax][1])
+B = math.ceil(couleursPref.cluster_centers_[imax][2])
+
+dataUser[0]['couleurPref']=[R,G,B]
+
+listeTag=[]
+compteTag=[]
+for tableau in dataUser[0]['tags']:
+    tag=dataUser[0]['tags'][tableau]
+    
+    
+    if tag in listeTag:
+        compteTag[listeTag.index(tag)]+=1
+    else:
+        compteTag.append(1)
+        listeTag.append(tag)
+
+print(listeTag,compteTag)
+
+
+tagPref=listeTag[compteTag.index(max(compteTag))]
+dataUser[0]['tagPref']=tagPref
+
+
+jsonUser=open("user.json",'w')
+jsonUser.write(json.dumps(dataUser, ensure_ascii=False))
+jsonUser.close()
+
+
 

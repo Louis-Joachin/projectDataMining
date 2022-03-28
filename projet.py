@@ -4,7 +4,7 @@ from PIL import Image
 import numpy
 import math
 import matplotlib.pyplot as plot
-from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans
 import random
 
 def Couleur(path):
@@ -13,7 +13,7 @@ def Couleur(path):
     numarray = numpy.array(imgfile.getdata(), numpy.uint8)
 
     cluster_count = 2
-    clusters = KMeans(n_clusters = cluster_count)
+    clusters = MiniBatchKMeans(n_clusters = cluster_count)
     clusters.fit(numarray)
 
     npbins = numpy.arange(0, cluster_count + 1)
@@ -47,45 +47,51 @@ with open('label.json','w') as jsonfile :
             dictionnaire["format"]=format
             dictionnaire["tags"]=[]
             dictionnaire["likes"]=0
-            #dictionnaire["couleur"]=Couleur(file)
+            dictionnaire["couleur"]=Couleur(file)
             listeTableau.append(dictionnaire)
             
-    string=str(listeTableau)
+    
+
+        
+    with open('user.json','w') as jsonfile2 :
+        tags = ["impressionnisme","abstrait","emouvant","decevant","chef-d'oeuvre","acrylique","aquarelle","printanier"]
+        listeUser=[]
+        for userId in range(100):
+            dictionnaireUser={}
+            dictionnaireUser["id"]=userId
+            dictionnaireUser["likes"]=[]
+            dictionnaireUser["tags"]={}
+            dictionnaireUser['couleurPref']=[]
+            dictionnaireUser['tagPref']=''
+            for i in range(20):
+                #likes
+                randint=random.randint(0,len(listeTableau)-1)
+                like=listeTableau[randint]
+                dictionnaireUser["likes"].append(like["lien"])
+                listeTableau[randint]["likes"]+=1
+                
+                #tags
+                randint=random.randint(0,len(listeTableau)-1)
+                randint2=random.randint(0,len(tags)-1)
+                tableauTag=listeTableau[randint]
+                tag=tags[randint2]
+                dictionnaireUser["tags"][tableauTag["lien"]]=tag
+                if tag not in listeTableau[randint]["tags"]:
+                    listeTableau[randint]["tags"].append(tag)
+
+                
+                
+            listeUser.append(dictionnaireUser)
+
+        jsonfile2.write(json.dumps(listeUser, ensure_ascii=False))
+    
+
     jsonfile.write(json.dumps(listeTableau, ensure_ascii=False))
-    jsonfile.close()
+
+
+
+
 
     
-with open('user.json','w') as jsonfile :
-    tags = ["impressionnisme","abstrait","emouvant","decevant","chef-d'oeuvre","acrylique","aquarelle","printanier"]
-    listeUser=[]
-    dictionnaireUser={}
-    for userId in range(100):
-        dictionnaireUser["id"]=userId
-        dictionnaireUser["likes"]=[]
-        dictionnaireUser["tags"]=[]
-        for i in range(20):
-            #likes
-            randint=random.randint(0,len(listeTableau)-1)
-            like=listeTableau[randint]
-            dictionnaireUser["likes"].append(like["lien"])
-            listeTableau[randint]["likes"]+=1
-            
-            #tags
-            randint=random.randint(0,len(listeTableau)-1)
-            randint2=random.randint(0,len(tags)-1)
-            tableauTag=listeTableau[randint]
-            tag=tags[randint2]
-            dictionnaireUser["tags"].append({tableauTag["lien"]:tag})
-            if tag not in listeTableau[randint]["tags"]:
-                listeTableau[randint]["tags"].append(tag)
-
-            
-            
-        print(dictionnaireUser)
-        listeUser.append(dictionnaireUser)
-    
-    
-    jsonfile.write(json.dumps(listeUser, ensure_ascii=False))
-    jsonfile.close()
             
         

@@ -34,6 +34,7 @@ def Couleur(path):
 #on stocke les éléments suivants : le chemin vers l'image, l'auteur, la largeur, la hauteur
 #le format, les tags mis par les utilisateurs, le nombre de likes et la couleur dominante
 listeTableau=[]
+tags = ["impressionnisme","abstrait","emouvant","decevant","chef-d'oeuvre","acrylique","aquarelle","printanier"] 
 for dossier in os.listdir('./images'):
     for image in os.listdir('./images/'+dossier):
         file='./images/'+dossier+'/'+image
@@ -52,7 +53,10 @@ for dossier in os.listdir('./images'):
         dictionnaire["largeur"]=str(width)
         dictionnaire["hauteur"]=str(height)
         dictionnaire["format"]=format
-        dictionnaire["tags"]=[] #la liste des tags est vide mais sera complétée plus tard 
+        #la liste des tags est vide mais sera complétée plus tard 
+        dictionnaire["tags"]={}
+        for tag in tags:
+            dictionnaire["tags"][tag] = 0 
         dictionnaire["likes"]=0 #idem
         dictionnaire["unlikes"]=0 #idem
         dictionnaire["couleur"]=Couleur(file)
@@ -64,7 +68,7 @@ for dossier in os.listdir('./images'):
 #un utilisateur est composé des éléments suivants : une id, la liste de ses lies, la liste de ses tableaux taggés
 #sa couleur préférée, son tag préféré
 #la liste des tags possibles
-tags = ["impressionnisme","abstrait","emouvant","decevant","chef-d'oeuvre","acrylique","aquarelle","printanier"] 
+
 listeUser=[]
 for userId in range(100):
     dictionnaireUser={}
@@ -80,6 +84,14 @@ for userId in range(100):
         like=listeTableau[randint]
         dictionnaireUser["likes"].append(like["lien"]) #on ajoute le lien du tableau liké à la liste des likes
         listeTableau[randint]["likes"]+=1 #on ajoute un like sur le tableau
+        #génération des tags
+        randint2=random.randint(0,len(tags)-1)
+        tableauTag=listeTableau[randint]
+        tag=tags[randint2]
+        dictionnaireUser["tags"][tableauTag["lien"]]=tag 
+        listeTableau[randint]["tags"][tag] += 1
+
+
         
         #génération des unlikes
         randint=random.randint(0,len(listeTableau)-1)
@@ -88,15 +100,8 @@ for userId in range(100):
             dictionnaireUser["unlikes"].append(unlike["lien"]) #on ajoute le lien du tableau unliké à la liste des likes
             listeTableau[randint]["unlikes"]+=1 #on ajoute un unlike sur le tableau
 
-        #génération des tags
-        randint=random.randint(0,len(listeTableau)-1)
-        randint2=random.randint(0,len(tags)-1)
-        tableauTag=listeTableau[randint]
-        tag=tags[randint2]
-        dictionnaireUser["tags"][tableauTag["lien"]]=tag 
-        if tag not in listeTableau[randint]["tags"]:
-            #on ajoute le tag au tableau s'il n'est pas déjà présent
-            listeTableau[randint]["tags"].append(tag) 
+        
+         
     listeUser.append(dictionnaireUser)
 
     

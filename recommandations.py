@@ -71,6 +71,7 @@ dtc = tree.DecisionTreeClassifier()
 dtc = dtc.fit(dataframe, resultframe)
 
 recommandation = []
+non_recommandation=[]
 while len(recommandation)<10:
     tab = random.choice(dataTabCustom)
     if tab["auteur"] not in auteur_vu:
@@ -80,6 +81,9 @@ while len(recommandation)<10:
             le3.transform([max(tableau["tags"].items(), key=operator.itemgetter(1))[0]])[0]]])
     if prediction == 1:
         recommandation.append(tab)
-        
+    else:
+        non_recommandation.append(tab)
+
 for tab in recommandation:
     tab["indice_couleur"]=ComparaisonCouleur(dataUser[0]["couleurPref"],tab["couleur"])
+

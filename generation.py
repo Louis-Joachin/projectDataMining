@@ -6,6 +6,10 @@ import math
 from sklearn.cluster import MiniBatchKMeans
 import random
 
+
+#Ce script nous a permis de générer les fichiers JSON nécéssaire à l'utilisation de nos algorithmes. On part du principe que les images sont situées dans les dossiers ./images/LABEL
+#où LABEL varie en fonction du créateur de l'image.
+
 #Fonction permettant de déterminer la couleur dominante d'une image
 #Entrées : chemin vers un de nos tableaux
 #Sorties : Les codes RGB de la couleur dominante

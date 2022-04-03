@@ -3,7 +3,6 @@ import json
 from PIL import Image
 import numpy
 import math
-import matplotlib.pyplot as plot
 from sklearn.cluster import MiniBatchKMeans
 import random
 
@@ -55,6 +54,7 @@ for dossier in os.listdir('./images'):
         dictionnaire["format"]=format
         dictionnaire["tags"]=[] #la liste des tags est vide mais sera complétée plus tard 
         dictionnaire["likes"]=0 #idem
+        dictionnaire["unlikes"]=0 #idem
         dictionnaire["couleur"]=Couleur(file)
         listeTableau.append(dictionnaire)
         
@@ -73,6 +73,7 @@ for userId in range(100):
     dictionnaireUser["tags"]={}
     dictionnaireUser['couleurPref']=[]
     dictionnaireUser['tagPref']=''
+    dictionnaireUser["unlikes"]=[]
     for i in range(20):
         #génération des likes
         randint=random.randint(0,len(listeTableau)-1)
@@ -80,6 +81,13 @@ for userId in range(100):
         dictionnaireUser["likes"].append(like["lien"]) #on ajoute le lien du tableau liké à la liste des likes
         listeTableau[randint]["likes"]+=1 #on ajoute un like sur le tableau
         
+        #génération des unlikes
+        randint=random.randint(0,len(listeTableau)-1)
+        unlike=listeTableau[randint]
+        if unlike["lien"] not in dictionnaireUser["likes"] :
+            dictionnaireUser["unlikes"].append(unlike["lien"]) #on ajoute le lien du tableau unliké à la liste des likes
+            listeTableau[randint]["unlikes"]+=1 #on ajoute un unlike sur le tableau
+
         #génération des tags
         randint=random.randint(0,len(listeTableau)-1)
         randint2=random.randint(0,len(tags)-1)

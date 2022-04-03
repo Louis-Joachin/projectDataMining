@@ -78,30 +78,34 @@ for userId in range(100):
     dictionnaireUser['couleurPref']=[]
     dictionnaireUser['tagPref']=''
     dictionnaireUser["unlikes"]=[]
-    for i in range(25):
+    listeRandint=[]
+    for i in range(20):
         #génération des likes
         randint=random.randint(0,len(listeTableau)-1)
+        while randint in listeRandint:
+            randint=random.randint(0,len(listeTableau)-1)
+        listeRandint.append(randint)
         like=listeTableau[randint]
         dictionnaireUser["likes"].append(like["lien"]) #on ajoute le lien du tableau liké à la liste des likes
         listeTableau[randint]["likes"]+=1 #on ajoute un like sur le tableau
+        
         #génération des tags
         randint2=random.randint(0,len(tags)-1)
         tableauTag=listeTableau[randint]
         tag=tags[randint2]
-        dictionnaireUser["tags"][tableauTag["lien"]]=tag 
+        dictionnaireUser["tags"][tableauTag["lien"]]=tag
         listeTableau[randint]["tags"][tag] += 1
-
-
         
         #génération des unlikes
         randint=random.randint(0,len(listeTableau)-1)
+        while randint in listeRandint:
+            randint=random.randint(0,len(listeTableau)-1)
+        listeRandint.append(randint)
         unlike=listeTableau[randint]
-        if unlike["lien"] not in dictionnaireUser["likes"] :
-            dictionnaireUser["unlikes"].append(unlike["lien"]) #on ajoute le lien du tableau unliké à la liste des likes
-            listeTableau[randint]["unlikes"]+=1 #on ajoute un unlike sur le tableau
+        dictionnaireUser["unlikes"].append(unlike["lien"]) #on ajoute le lien du tableau unliké à la liste des likes
+        listeTableau[randint]["unlikes"]+=1 #on ajoute un unlike sur le tableau
 
         
-         
     listeUser.append(dictionnaireUser)
 
     

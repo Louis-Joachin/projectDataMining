@@ -78,7 +78,7 @@ for userId in range(100):
     dictionnaireUser['couleurPref']=[]
     dictionnaireUser['tagPref']=''
     dictionnaireUser["unlikes"]=[]
-    for i in range(20):
+    for i in range(25):
         #génération des likes
         randint=random.randint(0,len(listeTableau)-1)
         like=listeTableau[randint]

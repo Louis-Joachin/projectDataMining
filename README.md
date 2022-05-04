@@ -1,3 +1,5 @@
+This Project was made by Baptiste Boiteux and Louis-Joachin Messié
+
 # The goal of the project
 
 The goal of this project is to recommend images based on the preferences of the user. The final goal is to create a recommendation system that suggests images to a user. In order to do this, we must create a user-preference profile and a file that stores information about the images to predict the perfect image that will be liked by our user.
